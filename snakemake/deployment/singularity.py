@@ -74,10 +74,10 @@ class Image:
                 p = subprocess.check_output(
                     [
                         "singularity",
-                        "pull",
-                        "--name",
-                        "{}.simg".format(self.hash),
-                        self.url,
+                        "build",
+                        "--sandbox",
+                        "{}".format(self.hash),
+                        self.url
                     ],
                     cwd=self._img_dir,
                     stderr=subprocess.STDOUT,
@@ -92,7 +92,7 @@ class Image:
     def path(self):
         if self.is_local:
             return urlparse(self.url).path
-        return os.path.join(self._img_dir, self.hash) + ".simg"
+        return os.path.join(self._img_dir, self.hash)
 
     def __hash__(self):
         return hash(self.hash)
